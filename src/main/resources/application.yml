@@ -1,0 +1,23 @@
+spring.application.name: spring-data-service
+
+server.port: 8081
+
+#management.server.port: 8082
+
+spring.data.cassandra:
+  contact-points: localhost
+  port: 9042
+  local-datacenter: datacenter1
+  keyspace-name: shop
+  username: cassandra # ${ASTRA_DB_USERNAME}
+  password: cassandra # ${ASTRA_DB_PASSWORD}
+  # Create the schema on the fly if it doesn't exist
+  schema-action: CREATE_IF_NOT_EXISTS
+  # Increase timeouts when connecting to Astra from a dev workstation
+  request:
+    timeout: 10s
+  connection:
+    connect-timeout: 10s
+    init-query-timeout: 10s
+
+
