@@ -209,10 +209,10 @@ public class CassandraConfiguration  extends AbstractCassandraConfiguration{
        @Override
        public CqlTemplate cqlTemplate() {
    
-          CqlTemplate template = super.cqlTemplate(); //  CqlTemplate();
+          CqlTemplate template =  new  CqlTemplate(); // super.cqlTemplate(); 
           
           template.setConsistencyLevel(DefaultConsistencyLevel.valueOf(consistencyLevel));
-          template.setSerialConsistencyLevel(DefaultConsistencyLevel.valueOf(consistencyLevel));
+          template.setSerialConsistencyLevel(DefaultConsistencyLevel.LOCAL_SERIAL);
           template.setSession(super.getRequiredSession());
           return template;
       }
