@@ -1,10 +1,13 @@
 #!/bin/bash
-echo "-------------  remove cass volumes --------------------------------------"
-docker  volume rm spring-cassandra_cassandra1_data
-docker  volume rm spring-cassandra_cassandra2_data
-docker  volume rm spring-cassandra_cassandra3_data
-docker  volume rm spring-cassandra_cassandra4_data
-docker  volume rm spring-cassandra_cassandra5_data
-docker  volume rm spring-cassandra_cassandra6_data
-
+echo "-------------  start --------------------------------------"
+echo "-- clean package --"
+cd ..
+mvn clean package -DskipTests
+cd container
+echo "-- copy jar --"
+rm -rf *.jar
+cp ../target/*.jar .
+echo "-- build image --"
+docker rmi my-app
+docker build -t my-app .
 echo "-------------  done --------------------------------------"

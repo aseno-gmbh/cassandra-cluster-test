@@ -9,11 +9,15 @@ services:
               - cassnet
               environment:
                      - ENV_PROFILES=vfo
-                     - CASS_LOCAL_DC= rz1
-                     - CASS_KEYSPACE= shop
-                     - CASS_CONTACT_POINTS=cassandra1,cassandra2 ,cassandra4,cassandra5 #172.19.0.2 ,172.19.0.3 #,130.229.106.86 #
+                     - CASS_LOCAL_DC=rz1
+                     - CASS_KEYSPACE=shop2
+                     - CASS_CONTACT_POINTS=cassandra1,cassandra2,cassandra4,cassandra5 #172.19.0.2 ,172.19.0.3 #,130.229.106.86 #
                      - CASS_PORT=9042
-                     - CASS_USER=cassandra
-                     - CASS_PWD=cassandra
+                     - CASS_USER=elos
+                     - CASS_PWD=password
                      - CASS_CL=ONE
                      - CASS_SCL=ONE
+
+networks:
+  cassnet:
+    external: true

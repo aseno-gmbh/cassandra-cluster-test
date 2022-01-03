@@ -1,6 +1,6 @@
 #!/bin/bash
 # Start Service-Anwendung als Java-Anwendung
-REST_SERVICE_JAR=mycass-0.0.1-SNAPSHOT.jar
+REST_SERVICE_JAR=mycass-1.0.0.jar
 
 
 
