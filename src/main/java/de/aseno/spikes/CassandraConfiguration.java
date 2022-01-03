@@ -1,38 +1,25 @@
 package de.aseno.spikes;
 
 
-import java.net.InetSocketAddress;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import org.springframework.beans.factory.annotation.Value;
-
-
-import org.springframework.boot.autoconfigure.cassandra.CqlSessionBuilderCustomizer;
-import org.springframework.boot.autoconfigure.cassandra.CassandraProperties;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import org.springframework.context.annotation.Profile;
-import org.springframework.data.cassandra.SessionFactory;
-import org.springframework.data.cassandra.config.CqlSessionFactoryBean;
-import org.springframework.data.cassandra.config.SchemaAction;
-import org.springframework.data.cassandra.config.SessionFactoryFactoryBean;
-import org.springframework.data.cassandra.core.CassandraOperations;
-import org.springframework.data.cassandra.core.CassandraTemplate;
-import org.springframework.data.cassandra.core.convert.CassandraConverter;
-import org.springframework.data.cassandra.core.convert.MappingCassandraConverter;
-import org.springframework.data.cassandra.core.cql.CqlTemplate;
-import org.springframework.data.cassandra.core.mapping.CassandraMappingContext;
-import org.springframework.data.cassandra.core.mapping.SimpleUserTypeResolver;
-import org.springframework.data.cassandra.repository.config.EnableCassandraRepositories;
-
-import org.springframework.data.cassandra.config.AbstractCassandraConfiguration;
-
 import com.datastax.oss.driver.api.core.ConsistencyLevel;
-import com.datastax.oss.driver.api.core.CqlSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+import org.springframework.data.cassandra.config.AbstractCassandraConfiguration;
+import org.springframework.data.cassandra.config.CqlSessionFactoryBean;
+import org.springframework.data.cassandra.config.SchemaAction;
+import org.springframework.data.cassandra.core.CassandraOperations;
+import org.springframework.data.cassandra.core.cql.QueryOptions;
+import org.springframework.data.cassandra.core.cql.WriteOptions;
+import org.springframework.data.cassandra.repository.config.EnableCassandraRepositories;
 
 @Configuration
 @Profile("!test")
@@ -40,6 +27,9 @@ import org.slf4j.LoggerFactory;
 public class CassandraConfiguration  extends AbstractCassandraConfiguration{
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CassandraConfiguration.class);
+
+    @Autowired
+    private CassandraOperations cassandraTemplate;
 	
     @Value("${spring.data.cassandra.keyspace-name}")
     private String keyspace;
@@ -184,5 +174,22 @@ public class CassandraConfiguration  extends AbstractCassandraConfiguration{
         // cassandraSession.setRetryPolicy(new ConsistencyRetryPolicy());
         return cassandraSession;
     }
+    @Bean
+    public WriteOptions writeOptions() {
+        return WriteOptions.builder().consistencyLevel(ConsistencyLevel.EACH_QUORUM).build();
+    }
 
+    @Bean
+    public QueryOptions queryOptions() {
+        return QueryOptions.builder()
+        .consistencyLevel(ConsistencyLevel.LOCAL_QUORUM)
+        // .retryPolicy(FallthroughRetryPolicy.INSTANCE)
+
+        .tracing(true)
+        .build();
+        // new QueryOptions()
+        // .setMetadataEnabled(true)
+        // .setDefaultIdempotence(true)
+        // .setConsistencyLevel(ConsistencyLevel.LOCAL_QUORUM);
+       }
 }
