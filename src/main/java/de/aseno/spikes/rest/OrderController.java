@@ -3,6 +3,8 @@ package de.aseno.spikes.rest;
 import java.util.List;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import de.aseno.spikes.CassandraConfiguration;
 import de.aseno.spikes.order.Order;
 import de.aseno.spikes.order.OrderRepository;
 import de.aseno.spikes.order.ProductNameAndPrice;
@@ -22,8 +25,12 @@ import de.aseno.spikes.order.ProductNameAndPrice;
 @RestController
 public class OrderController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(OrderController.class);
     @Autowired
     private OrderRepository orderRepository;
+    
+    @Autowired
+    private CassandraConfiguration cassConfig;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView root() {
@@ -34,6 +41,7 @@ public class OrderController {
 
     @PostMapping("orders")
     public Order createOrder(@RequestBody Order order) {
+        LOGGER.info("--> create with CL: " + cassConfig.cqlTemplate().getConsistencyLevel().name());
         return orderRepository.save(order);
     }
 
