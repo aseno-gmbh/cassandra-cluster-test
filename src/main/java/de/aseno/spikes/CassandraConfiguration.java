@@ -213,6 +213,7 @@ public class CassandraConfiguration  extends AbstractCassandraConfiguration{
           
           template.setConsistencyLevel(DefaultConsistencyLevel.valueOf(consistencyLevel));
           template.setSerialConsistencyLevel(DefaultConsistencyLevel.valueOf(consistencyLevel));
+          template.setSession(super.getRequiredSession());
           return template;
       }
 
