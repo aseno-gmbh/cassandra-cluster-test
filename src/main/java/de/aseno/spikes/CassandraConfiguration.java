@@ -3,14 +3,17 @@ package de.aseno.spikes;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.time.Duration;
 
 import com.datastax.oss.driver.api.core.ConsistencyLevel;
 import com.datastax.oss.driver.api.core.CqlIdentifier;
 import com.datastax.oss.driver.api.core.DefaultConsistencyLevel;
+import com.datastax.oss.driver.api.core.config.DefaultDriverOption;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.cassandra.DriverConfigLoaderBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -185,7 +188,7 @@ public class CassandraConfiguration  extends AbstractCassandraConfiguration{
     
     @Bean
     public WriteOptions writeOptions() {
-        return WriteOptions.builder().consistencyLevel(ConsistencyLevel.EACH_QUORUM)
+        return WriteOptions.builder().consistencyLevel(ConsistencyLevel.LOCAL_SERIAL)
         .withTracing() //
 		.keyspace(CqlIdentifier.fromCql(keyspace)).build();
     }
@@ -214,7 +217,17 @@ public class CassandraConfiguration  extends AbstractCassandraConfiguration{
           template.setConsistencyLevel(DefaultConsistencyLevel.valueOf(consistencyLevel));
           template.setSerialConsistencyLevel(DefaultConsistencyLevel.LOCAL_SERIAL);
           template.setSession(super.getRequiredSession());
+          template.afterPropertiesSet();
           return template;
       }
+
+      @Bean
+      @Primary
+    public DriverConfigLoaderBuilderCustomizer driverConfigLoaderBuilderCustomizer() {
+        return loaderBuilder -> loaderBuilder
+                .withDuration(DefaultDriverOption.REQUEST_TIMEOUT, Duration.ofMillis(10000))
+                // .withBoolean(DefaultDriverOption.RETRY_POLICY, true)
+                .withString(DefaultDriverOption.REQUEST_SERIAL_CONSISTENCY, "LOCAL_SERIAL");
+    }
 
 }
