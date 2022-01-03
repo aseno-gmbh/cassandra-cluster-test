@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.cassandra.core.cql.CqlTemplate;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,6 +32,8 @@ public class OrderController {
     
     @Autowired
     private CassandraConfiguration cassConfig;
+    @Autowired
+    private CqlTemplate cqlTemplate;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView root() {
@@ -41,7 +44,9 @@ public class OrderController {
 
     @PostMapping("orders")
     public Order createOrder(@RequestBody Order order) {
-        LOGGER.info("--> create with CL: " + cassConfig.cqlTemplate().getConsistencyLevel().name());
+        LOGGER.info("--> create with My-COnfig-CL: " 
+        + cassConfig.cqlTemplate().getConsistencyLevel().name()
+        + " Template: " + cqlTemplate.getConsistencyLevel().name());
         return orderRepository.save(order);
     }
 
