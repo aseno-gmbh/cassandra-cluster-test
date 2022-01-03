@@ -6,22 +6,23 @@ import java.net.UnknownHostException;
 
 import com.datastax.oss.driver.api.core.ConsistencyLevel;
 import com.datastax.oss.driver.api.core.CqlIdentifier;
+import com.datastax.oss.driver.api.core.DefaultConsistencyLevel;
+import com.datastax.oss.driver.api.core.config.DefaultDriverOption;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.cassandra.DriverConfigLoaderBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.cassandra.config.AbstractCassandraConfiguration;
 import org.springframework.data.cassandra.config.CqlSessionFactoryBean;
 import org.springframework.data.cassandra.config.SchemaAction;
-import org.springframework.data.cassandra.core.CassandraAdminOperations;
-import org.springframework.data.cassandra.core.CassandraOperations;
-
+import org.springframework.data.cassandra.core.cql.CqlTemplate;
 import org.springframework.data.cassandra.core.cql.QueryOptions;
 import org.springframework.data.cassandra.core.cql.WriteOptions;
+import org.springframework.data.cassandra.core.cql.session.DefaultSessionFactory;
 import org.springframework.data.cassandra.repository.config.EnableCassandraRepositories;
 
 @Configuration
@@ -30,9 +31,6 @@ import org.springframework.data.cassandra.repository.config.EnableCassandraRepos
 public class CassandraConfiguration  extends AbstractCassandraConfiguration{
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CassandraConfiguration.class);
-
-    @Autowired
-    private CassandraOperations cassandraTemplate;
 	
     @Value("${spring.data.cassandra.keyspace-name}")
     private String keyspace;
@@ -40,6 +38,9 @@ public class CassandraConfiguration  extends AbstractCassandraConfiguration{
 
     @Value("${spring.data.cassandra.contact-points}")
     private String contactPoints;
+
+    @Value("${spring.data.cassandra.request.consistency}")
+    private String consistencyLevel;
 
     @Value("${spring.data.cassandra.port}")
     private Integer port;
@@ -174,10 +175,16 @@ public class CassandraConfiguration  extends AbstractCassandraConfiguration{
         CqlSessionFactoryBean cassandraSession = super.cassandraSession();
         cassandraSession.setUsername(username);
         cassandraSession.setPassword(password);
+        
         // cassandraSession.setSessionBuilderConfigurer(sessionBuilderConfigurer)
         // cassandraSession.setRetryPolicy(new ConsistencyRetryPolicy());
         return cassandraSession;
     }
+    // @Bean
+    // public DriverConfigLoaderBuilderCustomizer driverConfigLoaderBuilderCustomizer() {
+    //     return builder -> builder.withBoolean(DefaultDriverOption.RECONNECT_ON_INIT, true);
+    // }
+    
     @Bean
     public WriteOptions writeOptions() {
         return WriteOptions.builder().consistencyLevel(ConsistencyLevel.EACH_QUORUM)
@@ -199,5 +206,15 @@ public class CassandraConfiguration  extends AbstractCassandraConfiguration{
         // .setConsistencyLevel(ConsistencyLevel.LOCAL_QUORUM);
        }
 
+       @Bean
+       @Override
+       public CqlTemplate cqlTemplate() {
+   
+          CqlTemplate template = super.cqlTemplate(); //  CqlTemplate();
+          
+          template.setConsistencyLevel(DefaultConsistencyLevel.valueOf(consistencyLevel));
+          template.setSerialConsistencyLevel(DefaultConsistencyLevel.valueOf(consistencyLevel));
+          return template;
+      }
 
 }
