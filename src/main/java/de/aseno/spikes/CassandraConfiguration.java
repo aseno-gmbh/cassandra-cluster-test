@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 
 import org.springframework.boot.autoconfigure.cassandra.CqlSessionBuilderCustomizer;
+import org.springframework.boot.autoconfigure.cassandra.CassandraProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -175,12 +176,13 @@ public class CassandraConfiguration  extends AbstractCassandraConfiguration{
         return new String[]{"de.aseno.spikes.order"};
     }
     @Bean
-    CqlSessionBuilderCustomizer authCustomizer(CassandraProperties properties) {
-        return (builder) -> builder.withAuthCredentials(username, password);
+    @Override
+    public CqlSessionFactoryBean cassandraSession() {
+        CqlSessionFactoryBean cassandraSession = super.cassandraSession();
+        cassandraSession.setUsername(username);
+        cassandraSession.setPassword(password);
+        // cassandraSession.setRetryPolicy(new ConsistencyRetryPolicy());
+        return cassandraSession;
     }
-    // @Bean
-    // fun authProviderCustomizer() = DriverConfigLoaderBuilderCustomizer { builder ->
-    //     builder.withString(DefaultDriverOption.AUTH_PROVIDER_CLASS, "com.datastax.oss.driver.internal.core.auth.PlainTextAuthProvider")
-    // }
 
 }
