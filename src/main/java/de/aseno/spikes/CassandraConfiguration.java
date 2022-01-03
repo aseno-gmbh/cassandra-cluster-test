@@ -5,6 +5,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 import com.datastax.oss.driver.api.core.ConsistencyLevel;
+import com.datastax.oss.driver.api.core.CqlIdentifier;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +17,9 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.data.cassandra.config.AbstractCassandraConfiguration;
 import org.springframework.data.cassandra.config.CqlSessionFactoryBean;
 import org.springframework.data.cassandra.config.SchemaAction;
+import org.springframework.data.cassandra.core.CassandraAdminOperations;
 import org.springframework.data.cassandra.core.CassandraOperations;
+
 import org.springframework.data.cassandra.core.cql.QueryOptions;
 import org.springframework.data.cassandra.core.cql.WriteOptions;
 import org.springframework.data.cassandra.repository.config.EnableCassandraRepositories;
@@ -171,12 +174,15 @@ public class CassandraConfiguration  extends AbstractCassandraConfiguration{
         CqlSessionFactoryBean cassandraSession = super.cassandraSession();
         cassandraSession.setUsername(username);
         cassandraSession.setPassword(password);
+        // cassandraSession.setSessionBuilderConfigurer(sessionBuilderConfigurer)
         // cassandraSession.setRetryPolicy(new ConsistencyRetryPolicy());
         return cassandraSession;
     }
     @Bean
     public WriteOptions writeOptions() {
-        return WriteOptions.builder().consistencyLevel(ConsistencyLevel.EACH_QUORUM).build();
+        return WriteOptions.builder().consistencyLevel(ConsistencyLevel.EACH_QUORUM)
+        .withTracing() //
+		.keyspace(CqlIdentifier.fromCql(keyspace)).build();
     }
 
     @Bean
@@ -186,10 +192,12 @@ public class CassandraConfiguration  extends AbstractCassandraConfiguration{
         // .retryPolicy(FallthroughRetryPolicy.INSTANCE)
 
         .tracing(true)
-        .build();
+        .keyspace(CqlIdentifier.fromCql(keyspace)).build();
         // new QueryOptions()
         // .setMetadataEnabled(true)
         // .setDefaultIdempotence(true)
         // .setConsistencyLevel(ConsistencyLevel.LOCAL_QUORUM);
        }
+
+
 }
