@@ -1,4 +1,4 @@
-# Cassandra-Cluster Failover Tests
+# Cassandra-Cluster For Failover Tests
 
 In this example we use docker-compose to assemble a 6 node-cassandra-cluster with 2 rings/datacenters (rz1, rz2) to run some failover tests. This example could easily be extended to 10 or more nodes, depending on your requirements. It is advisable to have a machine with at least 16GB RAM.
 
@@ -139,4 +139,4 @@ How to deal with datacenter failure? datastax comes with two strategies DefaultR
 
 ## Cassandra Repair
 
-OK, we have inseted out data, but how are the datacenter synchronized once the nodes 4,5,6 are up and running agnain? :-) Have a look at: [Cassandra-Repair](https://cassandra.apache.org/doc/latest/cassandra/operating/repair.html).
+OK, we have inserted our data, but how are the datacenters/rings synchronized once the nodes 4,5,6 are up and running again? :-) Well, cassandra has two options - read repair and manuel repair (also anti-entropy repair). Have a look at: [Cassandra-Repair](https://cassandra.apache.org/doc/latest/cassandra/operating/repair.html).
