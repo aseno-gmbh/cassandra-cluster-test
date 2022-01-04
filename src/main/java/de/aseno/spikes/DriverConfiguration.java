@@ -1,5 +1,8 @@
 package de.aseno.spikes;
 
+import java.net.InetSocketAddress;
+import java.util.List;
+
 import com.datastax.oss.driver.api.core.CqlIdentifier;
 import com.datastax.oss.driver.api.core.CqlSession;
 import com.datastax.oss.driver.api.core.CqlSessionBuilder;
@@ -7,12 +10,12 @@ import com.datastax.oss.driver.api.core.config.DefaultDriverOption;
 import com.datastax.oss.driver.api.core.config.DriverConfigLoader;
 import com.datastax.oss.driver.api.core.config.ProgrammaticDriverConfigLoaderBuilder;
 import com.datastax.oss.driver.internal.core.auth.PlainTextAuthProvider;
-import java.net.InetSocketAddress;
-import java.util.List;
+
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.lang.NonNull;
 import org.springframework.util.StringUtils;
@@ -130,6 +133,7 @@ public class DriverConfiguration {
    * @return The {@link CqlSessionBuilder} bean.
    */
   @Bean
+  @Primary
   public CqlSessionBuilder sessionBuilder(
       @NonNull ProgrammaticDriverConfigLoaderBuilder driverConfigLoaderBuilder) {
     CqlSessionBuilder sessionBuilder =
@@ -150,6 +154,7 @@ public class DriverConfiguration {
    * @return The {@link CqlSession} bean.
    */
   @Bean
+  @Primary
   public CqlSession session(
       @NonNull CqlSessionBuilder sessionBuilder,
       @Qualifier("keyspace") @NonNull CqlIdentifier keyspace) {
