@@ -28,6 +28,7 @@ driver.contactPoints: ${CASS_CONTACT_POINTS}
 driver.localdc: ${CASS_LOCAL_DC}
 driver.keyspace: ${CASS_KEYSPACE}
 driver.consistency: ${CASS_CL}
+driver.serialConsistency: ${CASS_SCL}
 driver.pageSize: 8
 driver.username: ${CASS_USER}
 driver.password: ${CASS_PWD}
