@@ -24,3 +24,10 @@ spring.data.cassandra:
     init-query-timeout: 10s
 
 
+driver.contactPoints: ${CASS_CONTACT_POINTS}
+driver.localdc: ${CASS_LOCAL_DC}
+driver.keyspace: ${CASS_KEYSPACE}
+driver.consistency: ${CASS_CL}
+driver.pageSize: 8
+driver.username: ${CASS_USER}
+driver.password: ${CASS_PWD}

@@ -20,4 +20,3 @@ spring.data.cassandra:
     connect-timeout: 10s
     init-query-timeout: 10s
 
-
