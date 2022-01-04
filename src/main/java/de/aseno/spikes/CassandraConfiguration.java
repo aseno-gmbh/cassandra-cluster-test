@@ -210,12 +210,12 @@ public class CassandraConfiguration extends AbstractCassandraConfiguration {
   @Override
   public CqlSessionFactoryBean cassandraSession() {
       CqlSessionFactoryBean sessionFactory = new CqlSessionFactoryBean();
-      sessionFactory.setUsername(dseUsername);
-      sessionFactory.setPassword(dsePassword);
-      sessionFactory.setPort(port);
+    //   sessionFactory.setUsername(dseUsername);
+    //   sessionFactory.setPassword(dsePassword);
+    //   sessionFactory.setPort(port);
       sessionFactory.setKeyspaceName(keyspaceName);
-      sessionFactory.setContactPoints(getContactPoints());
-      sessionFactory.setLocalDatacenter(localDc);
+    //   sessionFactory.setContactPoints(getContactPoints());
+    //   sessionFactory.setLocalDatacenter(localDc);
       sessionFactory.setSessionBuilderConfigurer(getSessionBuilderConfigurer());
 
 
@@ -240,7 +240,7 @@ public class CassandraConfiguration extends AbstractCassandraConfiguration {
                     }
             return cqlSessionBuilder.withAuthCredentials(dseUsername, dsePassword)
             .withLocalDatacenter(localDc)
-            .withKeyspace(keyspaceName)
+            // .withKeyspace(keyspaceName)
             .withConfigLoader(config.build());
         }
     };

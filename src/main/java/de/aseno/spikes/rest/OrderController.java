@@ -30,10 +30,7 @@ public class OrderController {
     @Autowired
     private OrderRepository orderRepository;
     
-    @Autowired
-    private CassandraConfiguration cassConfig;
-    @Autowired
-    private CqlTemplate cqlTemplate;
+
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView root() {
@@ -44,9 +41,7 @@ public class OrderController {
 
     @PostMapping("orders")
     public Order createOrder(@RequestBody Order order) {
-        LOGGER.info("--> create with My-COnfig-CL: " 
-        + cassConfig.cqlTemplate().getConsistencyLevel().name()
-        + " Template: " + cqlTemplate.getConsistencyLevel().name());
+
         return orderRepository.save(order);
     }
 
