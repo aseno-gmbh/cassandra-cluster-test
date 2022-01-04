@@ -2,28 +2,14 @@ package de.aseno.spikes;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.time.Duration;
-
-import com.datastax.oss.driver.api.core.ConsistencyLevel;
-import com.datastax.oss.driver.api.core.CqlIdentifier;
-import com.datastax.oss.driver.api.core.DefaultConsistencyLevel;
-import com.datastax.oss.driver.api.core.config.DefaultDriverOption;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.cassandra.CqlSessionBuilderCustomizer;
-import org.springframework.boot.autoconfigure.cassandra.DriverConfigLoaderBuilderCustomizer;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.cassandra.config.AbstractCassandraConfiguration;
-import org.springframework.data.cassandra.config.CqlSessionFactoryBean;
 import org.springframework.data.cassandra.config.SchemaAction;
-import org.springframework.data.cassandra.core.cql.CqlTemplate;
-import org.springframework.data.cassandra.core.cql.QueryOptions;
-import org.springframework.data.cassandra.core.cql.WriteOptions;
 import org.springframework.data.cassandra.repository.config.EnableCassandraRepositories;
 
 @Configuration
@@ -174,17 +160,17 @@ public class CassandraConfiguration extends AbstractCassandraConfiguration {
         return new String[] { "de.aseno.spikes.order" };
     }
 
-    @Bean
-    @Override
-    public CqlSessionFactoryBean cassandraSession() {
-        CqlSessionFactoryBean cassandraSession = super.cassandraSession();
-        cassandraSession.setUsername(username);
-        cassandraSession.setPassword(password);
+    // @Bean
+    // @Override
+    // public CqlSessionFactoryBean cassandraSession() {
+    //     CqlSessionFactoryBean cassandraSession = super.cassandraSession();
+    //     cassandraSession.setUsername(username);
+    //     cassandraSession.setPassword(password);
 
-        // cassandraSession.setSessionBuilderConfigurer(sessionBuilderConfigurer)
-        // cassandraSession.setRetryPolicy(new ConsistencyRetryPolicy());
-        return cassandraSession;
-    }
+    //     // cassandraSession.setSessionBuilderConfigurer(sessionBuilderConfigurer)
+    //     // cassandraSession.setRetryPolicy(new ConsistencyRetryPolicy());
+    //     return cassandraSession;
+    // }
     // @Bean
     // public DriverConfigLoaderBuilderCustomizer
     // driverConfigLoaderBuilderCustomizer() {
@@ -192,57 +178,57 @@ public class CassandraConfiguration extends AbstractCassandraConfiguration {
     // true);
     // }
 
-    @Bean
-    public WriteOptions writeOptions() {
-        return WriteOptions.builder().consistencyLevel(ConsistencyLevel.LOCAL_SERIAL)
-                .withTracing() //
-                .keyspace(CqlIdentifier.fromCql(keyspace)).build();
-    }
+    // @Bean
+    // public WriteOptions writeOptions() {
+    //     return WriteOptions.builder().consistencyLevel(ConsistencyLevel.LOCAL_SERIAL)
+    //             .withTracing() //
+    //             .keyspace(CqlIdentifier.fromCql(keyspace)).build();
+    // }
 
-    @Bean
-    public QueryOptions queryOptions() {
-        return QueryOptions.builder()
-                .consistencyLevel(ConsistencyLevel.LOCAL_QUORUM)
-                // .retryPolicy(FallthroughRetryPolicy.INSTANCE)
+    // @Bean
+    // public QueryOptions queryOptions() {
+    //     return QueryOptions.builder()
+    //             .consistencyLevel(ConsistencyLevel.LOCAL_QUORUM)
+    //             // .retryPolicy(FallthroughRetryPolicy.INSTANCE)
 
-                .tracing(true)
-                .keyspace(CqlIdentifier.fromCql(keyspace)).build();
-        // new QueryOptions()
-        // .setMetadataEnabled(true)
-        // .setDefaultIdempotence(true)
-        // .setConsistencyLevel(ConsistencyLevel.LOCAL_QUORUM);
-    }
+    //             .tracing(true)
+    //             .keyspace(CqlIdentifier.fromCql(keyspace)).build();
+    //     // new QueryOptions()
+    //     // .setMetadataEnabled(true)
+    //     // .setDefaultIdempotence(true)
+    //     // .setConsistencyLevel(ConsistencyLevel.LOCAL_QUORUM);
+    // }
 
-    @Bean
-    @Primary
-    @Override
-    public CqlTemplate cqlTemplate() {
+    // @Bean
+    // @Primary
+    // @Override
+    // public CqlTemplate cqlTemplate() {
 
-        CqlTemplate template = new CqlTemplate(); // super.cqlTemplate();
+    //     CqlTemplate template = new CqlTemplate(); // super.cqlTemplate();
 
-        template.setConsistencyLevel(DefaultConsistencyLevel.valueOf(consistencyLevel));
-        template.setSerialConsistencyLevel(DefaultConsistencyLevel.LOCAL_SERIAL);
-        template.setSession(super.getRequiredSession());
-        template.afterPropertiesSet();
-        return template;
-    }
+    //     template.setConsistencyLevel(DefaultConsistencyLevel.valueOf(consistencyLevel));
+    //     template.setSerialConsistencyLevel(DefaultConsistencyLevel.LOCAL_SERIAL);
+    //     template.setSession(super.getRequiredSession());
+    //     template.afterPropertiesSet();
+    //     return template;
+    // }
 
-    @Bean
-    public CqlSessionBuilderCustomizer sessionBuilderConfigurer() {
-        return cqlSessionBuilder -> cqlSessionBuilder
-                .withAuthCredentials(username, password);
-    }
+    // @Bean
+    // public CqlSessionBuilderCustomizer sessionBuilderConfigurer() {
+    //     return cqlSessionBuilder -> cqlSessionBuilder
+    //             .withAuthCredentials(username, password);
+    // }
 
-    @Bean
-    @Primary
-    public DriverConfigLoaderBuilderCustomizer driverConfigLoaderBuilderCustomizer() {
-        return loaderBuilder -> loaderBuilder
-                .withDuration(DefaultDriverOption.REQUEST_TIMEOUT, Duration.ofMillis(10000))
-                // .withBoolean(DefaultDriverOption.RETRY_POLICY, true)
-                .withString(DefaultDriverOption.SESSION_KEYSPACE, "metest")
-                .withString(DefaultDriverOption.SESSION_NAME, "my-sess")
-                .withString(DefaultDriverOption.REQUEST_CONSISTENCY, "LOCAL_SERIAL")
-                .withString(DefaultDriverOption.REQUEST_SERIAL_CONSISTENCY, "LOCAL_SERIAL");
-    }
+    // @Bean
+    // @Primary
+    // public DriverConfigLoaderBuilderCustomizer driverConfigLoaderBuilderCustomizer() {
+    //     return loaderBuilder -> loaderBuilder
+    //             .withDuration(DefaultDriverOption.REQUEST_TIMEOUT, Duration.ofMillis(10000))
+    //             // .withBoolean(DefaultDriverOption.RETRY_POLICY, true)
+    //             .withString(DefaultDriverOption.SESSION_KEYSPACE, "metest")
+    //             .withString(DefaultDriverOption.SESSION_NAME, "my-sess")
+    //             .withString(DefaultDriverOption.REQUEST_CONSISTENCY, "LOCAL_SERIAL")
+    //             .withString(DefaultDriverOption.REQUEST_SERIAL_CONSISTENCY, "LOCAL_SERIAL");
+    // }
 
 }
