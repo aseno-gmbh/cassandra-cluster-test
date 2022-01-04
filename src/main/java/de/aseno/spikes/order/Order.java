@@ -27,7 +27,7 @@ public class Order implements Serializable {
      * Cassandra’s lightweight transactions to conditionally insert, update and delete rows. Therefore, INSERT 
      * statements are executed with the IF NOT EXISTS condition. 
      */
-    @Version Long version;
+    // @Version Long version;
 
     @Column("product_quantity")
     @CassandraType(type = CassandraType.Name.INT)

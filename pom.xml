@@ -19,7 +19,7 @@
 
 		<!-- Cassandra driver -->
 		<cassandra-java-driver.version>4.11.3</cassandra-java-driver.version>
-		<cassandra-native-protocol.version>1.4.11</cassandra-native-protocol.version>
+		<cassandra-native-protocol.version>1.5.0</cassandra-native-protocol.version>
 
 		<!-- Third Parties -->
 		<springfox.version>3.0.0</springfox.version>
