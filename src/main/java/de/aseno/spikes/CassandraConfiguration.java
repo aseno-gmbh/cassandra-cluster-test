@@ -48,84 +48,18 @@ public class CassandraConfiguration extends AbstractCassandraConfiguration {
   
     @Value("${driver.consistency:LOCAL_QUORUM}")
     protected String consistency;
+    
     @Value("${driver.serialConsistency:LOCAL_SERIAL}")
     protected String serialConsistency;
+    
+    @Value("${driver.retryPolicy}")
+    protected String retryPolicy;
   
     @Value("${driver.username}")
     protected String dseUsername;
   
     @Value("${driver.password}")
     protected String dsePassword;
-
-    // // @Bean
-    // // public CqlSessionBuilderCustomizer sessionBuilderCustomizer() {
-    // // return builder -> builder
-    // // .addContactPoint(new InetSocketAddress(this.contactPoints, this.port))
-    // // .withLocalDatacenter(this.localDataCenter)
-    // // .with
-    // // .withAuthCredentials(this.username, this.password);
-    // // }
-
-    // @Bean
-    // //@Primary
-    // public CqlSessionFactoryBean session() {
-
-    // CqlSessionFactoryBean session = new CqlSessionFactoryBean(); //
-    // super.cassandraSession();
-    // session.setContactPoints(contactPoints);
-    // session.setKeyspaceName(keyspace);
-    // session.setLocalDatacenter(localDataCenter);
-    // // cassandraSession.setRetryPolicy(new ConsistencyRetryPolicy());
-    // session.setUsername(username);
-    // session.setPassword(password);
-
-    // return session;
-    // }
-
-    // @Bean
-    // @Primary
-    // public SessionFactoryFactoryBean sessionFactory(CqlSession session,
-    // CassandraConverter converter) {
-
-    // SessionFactoryFactoryBean sessionFactory = new SessionFactoryFactoryBean();
-    // sessionFactory.setSession(session);
-    // sessionFactory.setConverter(converter);
-    // sessionFactory.setSchemaAction(SchemaAction.CREATE_IF_NOT_EXISTS);
-
-    // return sessionFactory;
-    // }
-
-    // @Bean
-    // @Primary
-    // public CassandraMappingContext mappingContext(CqlSession cqlSession) {
-
-    // CassandraMappingContext mappingContext = new CassandraMappingContext();
-    // mappingContext.setUserTypeResolver(new SimpleUserTypeResolver(cqlSession));
-
-    // return mappingContext;
-    // }
-
-    // @Bean
-    // @Primary
-    // public CassandraConverter converter(CassandraMappingContext mappingContext) {
-    // return new MappingCassandraConverter(mappingContext);
-    // }
-
-    // @Bean
-    // @Primary
-    // public CassandraOperations cassandraTemplate(SessionFactory sessionFactory,
-    // CassandraConverter converter) {
-    // CassandraTemplate cassTemplate = new CassandraTemplate(sessionFactory,
-    // converter);
-
-    // return cassTemplate;
-    // }
-
-    /*
-     *
-     * using ----------- AbstractCassandraConfiguration
-     *
-     */
 
     @Override
     protected String getContactPoints() {
@@ -236,6 +170,7 @@ public class CassandraConfiguration extends AbstractCassandraConfiguration {
                     .withDuration(DefaultDriverOption.CONTROL_CONNECTION_TIMEOUT, Duration.ofSeconds(20))
                     .withString(DefaultDriverOption.SESSION_NAME, "my-sess")
                     .withBoolean(DefaultDriverOption.REQUEST_DEFAULT_IDEMPOTENCE, true)
+                    .withString(DefaultDriverOption.RETRY_POLICY_CLASS, retryPolicy)
                     .withString(DefaultDriverOption.REQUEST_CONSISTENCY, consistency)
                     .withString(DefaultDriverOption.REQUEST_SERIAL_CONSISTENCY, serialConsistency);
                     for (String contactPoint : contactPoints) {

@@ -18,7 +18,7 @@
 		 <start-class>de.aseno.spikes.Application</start-class>
 
 		<!-- Cassandra driver -->
-		<cassandra-java-driver.version>4.8.0</cassandra-java-driver.version>
+		<cassandra-java-driver.version>4.11.3</cassandra-java-driver.version>
 		<cassandra-native-protocol.version>1.4.11</cassandra-native-protocol.version>
 
 		<!-- Third Parties -->
