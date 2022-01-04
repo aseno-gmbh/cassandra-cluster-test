@@ -233,6 +233,7 @@ public class CassandraConfiguration extends AbstractCassandraConfiguration {
                     .withDuration(DefaultDriverOption.REQUEST_TIMEOUT, Duration.ofSeconds(30))
                     .withDuration(DefaultDriverOption.CONTROL_CONNECTION_TIMEOUT, Duration.ofSeconds(20))
                     .withString(DefaultDriverOption.SESSION_NAME, "my-sess")
+                    .withBoolean(DefaultDriverOption.REQUEST_DEFAULT_IDEMPOTENCE, true)
                     .withString(DefaultDriverOption.REQUEST_CONSISTENCY, consistency);
                     for (String contactPoint : contactPoints) {
                         InetSocketAddress address = InetSocketAddress.createUnresolved(contactPoint, port);
