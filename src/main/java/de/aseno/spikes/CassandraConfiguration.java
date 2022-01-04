@@ -48,6 +48,8 @@ public class CassandraConfiguration extends AbstractCassandraConfiguration {
   
     @Value("${driver.consistency:LOCAL_QUORUM}")
     protected String consistency;
+    @Value("${driver.serialConsistency:LOCAL_SERIAL}")
+    protected String serialConsistency;
   
     @Value("${driver.username}")
     protected String dseUsername;
@@ -234,7 +236,8 @@ public class CassandraConfiguration extends AbstractCassandraConfiguration {
                     .withDuration(DefaultDriverOption.CONTROL_CONNECTION_TIMEOUT, Duration.ofSeconds(20))
                     .withString(DefaultDriverOption.SESSION_NAME, "my-sess")
                     .withBoolean(DefaultDriverOption.REQUEST_DEFAULT_IDEMPOTENCE, true)
-                    .withString(DefaultDriverOption.REQUEST_CONSISTENCY, consistency);
+                    .withString(DefaultDriverOption.REQUEST_CONSISTENCY, consistency)
+                    .withString(DefaultDriverOption.REQUEST_SERIAL_CONSISTENCY, serialConsistency);
                     for (String contactPoint : contactPoints) {
                         InetSocketAddress address = InetSocketAddress.createUnresolved(contactPoint, port);
                         cqlSessionBuilder = cqlSessionBuilder.addContactPoint(address);
