@@ -16,12 +16,9 @@ import org.slf4j.LoggerFactory;
 
 import lombok.NonNull;
 
-public class ConsistencyRetryPolicy extends DefaultRetryPolicy {
+public class ConsistencyRetryPolicy  extends DefaultRetryPolicy {
 
 	private static final Logger LOG = LoggerFactory.getLogger(ConsistencyRetryPolicy.class);
-	private ConsistencyLevel consistencyLevel;
-
-	private ConsistencyLevel lowerConsistencyLevel;
 
 	private int numOfRetries;
 
@@ -85,7 +82,7 @@ public class ConsistencyRetryPolicy extends DefaultRetryPolicy {
 		} else if (cl.isSerial()) {
 			verdict = RetryVerdict.RETHROW;
 		} else if (received < blockFor) {
-			verdict = this.maybeDowngrade(cl, received, retryCount);
+			verdict = this.downgrade(cl, received, retryCount);
 		} else if (!dataPresent) {
 			verdict = RetryVerdict.RETRY_SAME;
 		} else {
@@ -105,7 +102,7 @@ public class ConsistencyRetryPolicy extends DefaultRetryPolicy {
 			//            return RetryVerdict.RETRY_NEXT;
 			//        } else if (retryCount == 0) {
 
-			LOG.warn(String.format("Only one node alive -> Downgraded to LOCAL_QUORUM.  Alive:%d Retrycount:%d", alive, retryCount));
+			LOG.warn(String.format("Downgraded to LOCAL_QUORUM.  Alive:%d Retrycount:%d", alive, retryCount));
 			ConsistencyDowngradingRetryVerdict rv = new ConsistencyDowngradingRetryVerdict(ConsistencyLevel.LOCAL_QUORUM);
 			
 			LOG.info("retry decision " + rv.toString());
@@ -116,12 +113,12 @@ public class ConsistencyRetryPolicy extends DefaultRetryPolicy {
 			return RetryVerdict.IGNORE;
 		}
 
-		return maybeDowngrade(cl, alive, retryCount);
+		return downgrade(cl, alive, retryCount);
 	}
 
 	@NonNull
-	private RetryVerdict maybeDowngrade(@NonNull ConsistencyLevel cl, int alive, int retryCount) {
-		LOG.info("maybeDowngrade with CL: -> " + cl.name());
+	private RetryVerdict downgrade(@NonNull ConsistencyLevel cl, int alive, int retryCount) {
+		LOG.info("downgrade with CL: -> " + cl.name());
 		if(cl == ConsistencyLevel.ALL) {
 			LOG.warn(String.format("ALL could not be reached -> Downgraded to LOCAL_QUORUM. Alive:%d Retrycount:%d", alive, retryCount));
 			return new ConsistencyDowngradingRetryVerdict(ConsistencyLevel.QUORUM);
@@ -135,9 +132,8 @@ public class ConsistencyRetryPolicy extends DefaultRetryPolicy {
 			LOG.error(String.format("LOCAL_QUORUM could not be reached -> Downgraded to LOCAL_ONE. Alive:%d Retrycount:%d", alive, retryCount));
 			return new ConsistencyDowngradingRetryVerdict(ConsistencyLevel.LOCAL_ONE);
 		}else if(cl == ConsistencyLevel.SERIAL) {
-			ConsistencyDowngradingRetryVerdict rv = new ConsistencyDowngradingRetryVerdict(ConsistencyLevel.LOCAL_QUORUM);
-			LOG.info("retry decision " + rv.toString());
-			LOG.error(String.format("LOCAL_QUORUM could not be reached -> Downgraded to LOCAL_ONE. Alive:%d Retrycount:%d", alive, retryCount));
+			ConsistencyDowngradingRetryVerdict rv = new ConsistencyDowngradingRetryVerdict(ConsistencyLevel.ANY);
+			LOG.info("SERIAL could not be reached -> Downgraded to ANY. Alive:%d Retrycount:%d", alive, retryCount);
 			return rv;
 		}else {
 			LOG.error(String.format("All retries failed -> Throw error. Alive:%d Retrycount:%d", alive, retryCount));
