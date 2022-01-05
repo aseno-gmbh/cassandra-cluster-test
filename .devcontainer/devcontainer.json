@@ -1,5 +1,0 @@
-{
-    "image": "openjdk:11",
-    "extensions": ["dbaeumer.vscode-eslint"],
-    "forwardPorts": [8080]
-  }
