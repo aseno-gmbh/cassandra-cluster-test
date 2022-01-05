@@ -1,2 +1,2 @@
-module mycass {
+module cassandratests {
 }

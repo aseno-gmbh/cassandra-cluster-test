@@ -1,12 +1,12 @@
 # Cassandra-Cluster For Failover Tests
 
-In this example we use docker-compose to assemble a 6 node-cassandra-cluster with 2 rings/datacenters (rz1, rz2) to run some failover tests. This example could easily be extended to 10 or more nodes, depending on your requirements. It is advisable to have a machine with at least 16GB RAM.
+In this example we use docker-compose to assemble a 6 node-cassandra-cluster with 2+ rings/datacenters  on a single machine to run failover tests. The cluster could be easily extended to 10 or more nodes, depending on your requirements/ needs. It is advisable to have a machine with at least 16GB RAM.
 
-A basic cassandra understanding is required to follow the steps bellow. If you are new to cassandra, please have a look at a datastax documentation.
+Basic understanding of **Cassandra and Docker** is required to follow the steps bellow. If you are new to cassandra, please have a look at the [cassandra](https://cassandra.apache.org/doc/latest/) and/or [docker](https://docs.docker.com/compose/reference/) documentation.
 
 ## Set up the cluster
 
-Using the [bitname/cassandra](https://https://hub.docker.com/r/bitnami/cassandra/) image and the file [docker-compose-cass-cluster.yaml](docker-compose-cass-cluster.yaml) (based on: [CCC](https://github.com/digitalis-io/ccc)) we build up a cassandra cluster with 6 nodes and two rings. Note that the first three nodes {1,2,3} are bound to the datacenter/ring "rz1" and the second three {4,5,6} to the datacenter/ring "rz2".
+Using the [bitname/cassandra](https://https://hub.docker.com/r/bitnami/cassandra/) image and the file [docker-compose-cass-cluster.yaml](docker-compose-cass-cluster.yaml) (based on [CCC](https://github.com/digitalis-io/ccc)) we build up a cassandra cluster with 6 nodes and two rings. Note that the first three nodes {1,2,3} are bound to the datacenter/ring "rz1" and the second three {4,5,6} to the datacenter/ring "rz2".
 
 An external docker-network called **cassnet** is used to share connectivity with the clients.
 
@@ -68,9 +68,9 @@ nodetool repair system_auth
 
 ## Set up & run a TEST-Application
 
-Once again, we do not want to reinvent the wheel and basically borrow a simple [datastax/spring-data-cassandra example](https://github.com/DataStax-Examples/spring-data-starter) and and make some adjustments ;-)
+Once again, we do not want to reinvent the wheel, so we borrow a simple [datastax/spring-data-cassandra example](https://github.com/DataStax-Examples/spring-data-starter) and make some adjustments ;-)
 
-To run the application we need only to run docker-compose with the application file. Once again, we are using docker-compose, since we may want to attach a second test-application which could be connected with the different ring/datacenter.
+To run the application we need only to run docker-compose with the application file. Since we might want to attach a second test-application which will be connected with the different ring/datacenter, we use docker-compose again.
 
 ```bash
 # run the test application

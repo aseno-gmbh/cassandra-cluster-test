@@ -1,4 +1,4 @@
-version: '2' # 2.4 is the last version that supports depends_on conditions for service health
+version: '2' 
 
 # docker network create -d bridge cassnet
 networks:
@@ -6,7 +6,6 @@ networks:
     external: true
 
 services:
-  
   cassandra1:
     #image: docker.io/bitnami/cassandra:4.0
     container_name: cassandra1
@@ -20,7 +19,7 @@ services:
       - cassandra1_data:/bitnami
       #- ./data/cass1:/var/lib/cassandra    # This is the volume that will persist data for cass1 node
       #- ./etc/cass1:/etc/cassandra   # Use your own config files for full control
-    environment: # &environment    # Declare and save environments variables into "environment"
+    environment:
       - CASSANDRA_SEEDS=cassandra1,cassandra2,cassandra4,cassandra5 #,cassandra2    # The first two nodes will be seeds
       - CASSANDRA_PASSWORD_SEEDER=yes
       - CASSANDRA_PASSWORD=cassandra
@@ -46,8 +45,8 @@ services:
       - cassandra2_data:/bitnami
       #- ./data/cass2:/var/lib/cassandra    # This is the volume that will persist data for cass2 node
       #- ./etc/cass2:/etc/cassandra    # Use your own config files for full control
-    environment: #*environment    # point to "environment" to use the same environment variables as cass1
-      - CASSANDRA_SEEDS=cassandra1,cassandra2,cassandra4,cassandra5    # The first two nodes will be seeds
+    environment:
+      - CASSANDRA_SEEDS=cassandra1,cassandra2,cassandra4,cassandra5 # The first two nodes will be seeds
       - CASSANDRA_PASSWORD=cassandra
       - CASSANDRA_CLUSTER_NAME=aseno-cass
       - CASSANDRA_DATACENTER=rz1
@@ -71,8 +70,8 @@ services:
       - cassandra3_data:/bitnami
       #- ./data/cass2:/var/lib/cassandra    # This is the volume that will persist data for cass2 node
       #- ./etc/cass2:/etc/cassandra    # Use your own config files for full control
-    environment: #*environment    # point to "environment" to use the same environment variables as cass1
-      - CASSANDRA_SEEDS=cassandra1,cassandra2,cassandra4,cassandra5    # The first two nodes will be seeds
+    environment:
+      - CASSANDRA_SEEDS=cassandra1,cassandra2,cassandra4,cassandra5 # The first two nodes will be seeds
       - CASSANDRA_PASSWORD=cassandra
       - CASSANDRA_CLUSTER_NAME=aseno-cass
       - CASSANDRA_DATACENTER=rz1
@@ -82,8 +81,7 @@ services:
       #- CASSANDRA_BROADCAST_ADDRESS=cassandra3
       - MAX_HEAP_SIZE=2G
       - HEAP_NEWSIZE=400M
-    #depends_on:
-    #  - cassandra1 
+
   cassandra4:
     container_name: cassandra4
     image: bitnami/cassandra:3.11.10
@@ -96,7 +94,7 @@ services:
       - cassandra4_data:/bitnami
       #- ./data/cass2:/var/lib/cassandra    # This is the volume that will persist data for cass2 node
       #- ./etc/cass2:/etc/cassandra    # Use your own config files for full control
-    environment: #*environment    # point to "environment" to use the same environment variables as cass1
+    environment:
       - CASSANDRA_SEEDS=cassandra1,cassandra2,cassandra4,cassandra5 #,cassandra4,cassandra5    # The first two nodes will be seeds
       - CASSANDRA_PASSWORD=cassandra
       - CASSANDRA_CLUSTER_NAME=aseno-cass
@@ -119,8 +117,8 @@ services:
       - cassandra5_data:/bitnami
       #- ./data/cass2:/var/lib/cassandra    # This is the volume that will persist data for cass2 node
       #- ./etc/cass2:/etc/cassandra    # Use your own config files for full control
-    environment: #*environment    # point to "environment" to use the same environment variables as cass1
-      - CASSANDRA_SEEDS=cassandra1,cassandra2,cassandra4,cassandra5    # The first two nodes will be seeds
+    environment:
+      - CASSANDRA_SEEDS=cassandra1,cassandra2,cassandra4,cassandra5 # The first two nodes will be seeds
       - CASSANDRA_PASSWORD=cassandra
       - CASSANDRA_CLUSTER_NAME=aseno-cass
       - CASSANDRA_DATACENTER=rz2
@@ -130,7 +128,6 @@ services:
       #- CASSANDRA_BROADCAST_ADDRESS=cassandra5
       - MAX_HEAP_SIZE=2G
       - HEAP_NEWSIZE=400M
-
 
   cassandra6:
     container_name: cassandra6
@@ -144,8 +141,8 @@ services:
       - cassandra6_data:/bitnami
       #- ./data/cass2:/var/lib/cassandra    # This is the volume that will persist data for cass2 node
       #- ./etc/cass2:/etc/cassandra    # Use your own config files for full control
-    environment: #*environment    # point to "environment" to use the same environment variables as cass1
-      - CASSANDRA_SEEDS=cassandra1,cassandra2,cassandra4,cassandra5    # The first two nodes will be seeds
+    environment:
+      - CASSANDRA_SEEDS=cassandra1,cassandra2,cassandra4,cassandra5 # The first two nodes will be seeds
       - CASSANDRA_PASSWORD=cassandra
       - CASSANDRA_CLUSTER_NAME=aseno-cass
       - CASSANDRA_DATACENTER=rz2
@@ -156,7 +153,6 @@ services:
       - MAX_HEAP_SIZE=2G
       - HEAP_NEWSIZE=400M
 
-    
 volumes:
   cassandra1_data:
     driver: local
@@ -170,4 +166,3 @@ volumes:
     driver: local
   cassandra6_data:
     driver: local
-

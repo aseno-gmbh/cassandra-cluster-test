@@ -1,24 +1,23 @@
 version: '3.3'
 services:
-       app:
-              image: my-app:latest
-              container_name: my-app
-              ports:
-              - 8080:8080
-              networks:
-              - cassnet
-              environment:
-                     - ENV_PROFILES=vfo
-                     - CASS_LOCAL_DC=rz1
-                     - CASS_KEYSPACE=myks
-                     - CASS_CONTACT_POINTS=cassandra1,cassandra2,cassandra4,cassandra5 #172.19.0.2 ,172.19.0.3 #,130.229.106.86 #
-                     - CASS_PORT=9042
-                     - CASS_USER=aseno
-                     - CASS_PWD=password
-                     - CASS_CL=EACH_QUORUM
-                     - CASS_SCL=SERIAL #LOCAL_SERIAL
-                     - CASS_RETRY_POLICY=de.aseno.spikes.ConsistencyRetryPolicy #com.datastax.oss.driver.internal.core.retry.DefaultRetryPolicy #
-
+   app: 
+       image: my-app:latest
+       container_name: my-app
+       ports:
+       - 8080:8080
+       networks:
+       - cassnet
+       environment:
+       - ENV_PROFILES=vfo
+       - CASS_LOCAL_DC=rz1
+       - CASS_KEYSPACE=myks
+       - CASS_CONTACT_POINTS=cassandra1,cassandra2,cassandra4,cassandra5
+       - CASS_PORT=9042
+       - CASS_USER=aseno
+       - CASS_PWD=password
+       - CASS_CL=EACH_QUORUM
+       - CASS_SCL=SERIAL #LOCAL_SERIAL
+       - CASS_RETRY_POLICY=com.datastax.oss.driver.internal.core.retry.DefaultRetryPolicy # de.aseno.spikes.ConsistencyRetryPolicy
 networks:
   cassnet:
-    external: true
+       external: true
