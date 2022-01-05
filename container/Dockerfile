@@ -8,7 +8,7 @@ RUN apt-get update && \
 
 COPY launch.sh /app/
 COPY *.jar /app/
-# copy contrast artifacts
+
 RUN chmod +x /app/launch.sh
 
 WORKDIR /app

@@ -2,18 +2,15 @@ spring.application.name: spring-data-service
 
 server.port: 8080
 
-#management.server.port: 8082
-
 spring.data.cassandra:
   contact-points: ${CASS_CONTACT_POINTS}
   port: ${CASS_PORT}
   local-datacenter: ${CASS_LOCAL_DC}
   keyspace-name: ${CASS_KEYSPACE}
-  username: ${CASS_USER} # ${ASTRA_DB_USERNAME}
-  password: ${CASS_PWD} # ${ASTRA_DB_PASSWORD}
+  username: ${CASS_USER}
+  password: ${CASS_PWD}
   # Create the schema on the fly if it doesn't exist
   schema-action: CREATE_IF_NOT_EXISTS
-  # Increase timeouts when connecting to Astra from a dev workstation
   request:
     timeout: 10s
     # https://docs.datastax.com/en/archived/cassandra/3.0/cassandra/dml/dmlConfigConsistency.html
@@ -23,14 +20,11 @@ spring.data.cassandra:
     connect-timeout: 10s
     init-query-timeout: 10s
 
-
 driver.contactPoints: ${CASS_CONTACT_POINTS}
 driver.localdc: ${CASS_LOCAL_DC}
 driver.keyspace: ${CASS_KEYSPACE}
 driver.consistency: ${CASS_CL}
 driver.serialConsistency: ${CASS_SCL}
-#driver.retryPolicy: de.aseno.spikes.ConsistencyRetryPolicy
-#driver.retryPolicy: com.datastax.oss.driver.internal.core.retry.DefaultRetryPolicy
 driver.retryPolicy: ${CASS_RETRY_POLICY}
 driver.sessionName: val-sess
 driver.pageSize: 8

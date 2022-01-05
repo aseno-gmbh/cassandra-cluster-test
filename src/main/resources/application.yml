@@ -1,16 +1,16 @@
+# This file is only use for a single node cassandra connection.
+# To run the example, please use application-vfo.yaml file and spring profiles.
 spring.application.name: spring-data-service
 
 server.port: 8080
-
-#management.server.port: 8082
 
 spring.data.cassandra:
   contact-points: localhost
   port: 9042
   local-datacenter: datacenter1
-  keyspace-name: shop
-  username: aseno # ${ASTRA_DB_USERNAME}
-  password: password # ${ASTRA_DB_PASSWORD}
+  keyspace-name: myks
+  username: aseno
+  password: password
   # Create the schema on the fly if it doesn't exist
   schema-action: CREATE_IF_NOT_EXISTS
   # Increase timeouts when connecting to Astra from a dev workstation

@@ -18,6 +18,7 @@ services:
        - CASS_CL=EACH_QUORUM
        - CASS_SCL=SERIAL #LOCAL_SERIAL
        - CASS_RETRY_POLICY=com.datastax.oss.driver.internal.core.retry.DefaultRetryPolicy # de.aseno.spikes.ConsistencyRetryPolicy
+# note that the docker network must have been created in advance
 networks:
   cassnet:
        external: true

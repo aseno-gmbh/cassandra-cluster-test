@@ -140,3 +140,26 @@ How to deal with datacenter failure? datastax comes with two strategies DefaultR
 ## Cassandra Repair
 
 OK, we have inserted our data, but how are the datacenters/rings synchronized once the nodes 4,5,6 are up and running again? :-) Well, cassandra has two options - read repair and manuel repair (also anti-entropy repair). Have a look at: [Cassandra-Repair](https://cassandra.apache.org/doc/latest/cassandra/operating/repair.html).
+
+
+## Clean up
+To clean up the test application and the cassandra infrastructure go to the root folder and follow the steps bellow.
+
+```bash
+# remove the test application
+docker-compose -f docker-compose.yaml down
+
+# remove the cassandra cluster infrastructure
+docker-compose -f docker-compose-cass-cluster.yaml down
+
+# remove the docker volums (or use ./container/remove-stuff.sh)
+docker  volume rm spring-cassandra_cassandra1_data
+docker  volume rm spring-cassandra_cassandra2_data
+docker  volume rm spring-cassandra_cassandra3_data
+docker  volume rm spring-cassandra_cassandra4_data
+docker  volume rm spring-cassandra_cassandra5_data
+docker  volume rm spring-cassandra_cassandra6_data
+
+# remove the cassnet docker network
+docker network rm cassnet
+```

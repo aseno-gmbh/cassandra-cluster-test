@@ -7,7 +7,6 @@ networks:
 
 services:
   cassandra1:
-    #image: docker.io/bitnami/cassandra:4.0
     container_name: cassandra1
     image: bitnami/cassandra:3.11.10
     ports:
@@ -17,10 +16,8 @@ services:
       - cassnet
     volumes:
       - cassandra1_data:/bitnami
-      #- ./data/cass1:/var/lib/cassandra    # This is the volume that will persist data for cass1 node
-      #- ./etc/cass1:/etc/cassandra   # Use your own config files for full control
-    environment:
-      - CASSANDRA_SEEDS=cassandra1,cassandra2,cassandra4,cassandra5 #,cassandra2    # The first two nodes will be seeds
+    environment: # The first two nodes (per dc) will be seeds
+      - CASSANDRA_SEEDS=cassandra1,cassandra2,cassandra4,cassandra5
       - CASSANDRA_PASSWORD_SEEDER=yes
       - CASSANDRA_PASSWORD=cassandra
       - CASSANDRA_CLUSTER_NAME=aseno-cass
@@ -43,10 +40,8 @@ services:
       - 9043:9042
     volumes:
       - cassandra2_data:/bitnami
-      #- ./data/cass2:/var/lib/cassandra    # This is the volume that will persist data for cass2 node
-      #- ./etc/cass2:/etc/cassandra    # Use your own config files for full control
     environment:
-      - CASSANDRA_SEEDS=cassandra1,cassandra2,cassandra4,cassandra5 # The first two nodes will be seeds
+      - CASSANDRA_SEEDS=cassandra1,cassandra2,cassandra4,cassandra5 
       - CASSANDRA_PASSWORD=cassandra
       - CASSANDRA_CLUSTER_NAME=aseno-cass
       - CASSANDRA_DATACENTER=rz1
@@ -56,8 +51,6 @@ services:
       #- CASSANDRA_BROADCAST_ADDRESS=cassandra2
       - MAX_HEAP_SIZE=2G
       - HEAP_NEWSIZE=400M
-    #depends_on:
-    #  - cassandra1
   cassandra3:
     container_name: cassandra3
     image: bitnami/cassandra:3.11.10
@@ -68,10 +61,8 @@ services:
       - 9044:9042
     volumes:
       - cassandra3_data:/bitnami
-      #- ./data/cass2:/var/lib/cassandra    # This is the volume that will persist data for cass2 node
-      #- ./etc/cass2:/etc/cassandra    # Use your own config files for full control
     environment:
-      - CASSANDRA_SEEDS=cassandra1,cassandra2,cassandra4,cassandra5 # The first two nodes will be seeds
+      - CASSANDRA_SEEDS=cassandra1,cassandra2,cassandra4,cassandra5
       - CASSANDRA_PASSWORD=cassandra
       - CASSANDRA_CLUSTER_NAME=aseno-cass
       - CASSANDRA_DATACENTER=rz1
@@ -81,7 +72,6 @@ services:
       #- CASSANDRA_BROADCAST_ADDRESS=cassandra3
       - MAX_HEAP_SIZE=2G
       - HEAP_NEWSIZE=400M
-
   cassandra4:
     container_name: cassandra4
     image: bitnami/cassandra:3.11.10
@@ -92,10 +82,8 @@ services:
       - 9045:9042
     volumes:
       - cassandra4_data:/bitnami
-      #- ./data/cass2:/var/lib/cassandra    # This is the volume that will persist data for cass2 node
-      #- ./etc/cass2:/etc/cassandra    # Use your own config files for full control
     environment:
-      - CASSANDRA_SEEDS=cassandra1,cassandra2,cassandra4,cassandra5 #,cassandra4,cassandra5    # The first two nodes will be seeds
+      - CASSANDRA_SEEDS=cassandra1,cassandra2,cassandra4,cassandra5
       - CASSANDRA_PASSWORD=cassandra
       - CASSANDRA_CLUSTER_NAME=aseno-cass
       - CASSANDRA_DATACENTER=rz2
@@ -115,10 +103,8 @@ services:
       - 9046:9042
     volumes:
       - cassandra5_data:/bitnami
-      #- ./data/cass2:/var/lib/cassandra    # This is the volume that will persist data for cass2 node
-      #- ./etc/cass2:/etc/cassandra    # Use your own config files for full control
     environment:
-      - CASSANDRA_SEEDS=cassandra1,cassandra2,cassandra4,cassandra5 # The first two nodes will be seeds
+      - CASSANDRA_SEEDS=cassandra1,cassandra2,cassandra4,cassandra5
       - CASSANDRA_PASSWORD=cassandra
       - CASSANDRA_CLUSTER_NAME=aseno-cass
       - CASSANDRA_DATACENTER=rz2
@@ -139,10 +125,8 @@ services:
       - 9047:9042
     volumes:
       - cassandra6_data:/bitnami
-      #- ./data/cass2:/var/lib/cassandra    # This is the volume that will persist data for cass2 node
-      #- ./etc/cass2:/etc/cassandra    # Use your own config files for full control
     environment:
-      - CASSANDRA_SEEDS=cassandra1,cassandra2,cassandra4,cassandra5 # The first two nodes will be seeds
+      - CASSANDRA_SEEDS=cassandra1,cassandra2,cassandra4,cassandra5
       - CASSANDRA_PASSWORD=cassandra
       - CASSANDRA_CLUSTER_NAME=aseno-cass
       - CASSANDRA_DATACENTER=rz2
