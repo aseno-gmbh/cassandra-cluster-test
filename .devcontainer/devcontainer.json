@@ -4,8 +4,7 @@
 		"dockerfile": "Dockerfile"
 	},
    "settings": {
-    "terminal.integrated.shell.linux": "/bin/bash",
-	"maven.executable.path": "/usr/local/sdkman/candidates/maven/current/bin/mvn"
+    "terminal.integrated.shell.linux": "/bin/bash"
   },
 
   "extensions": [
@@ -22,5 +21,5 @@
 	"postCreateCommand": "java -version",
 
 	// Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
-	"remoteUser": "vscode"
+	//"remoteUser": "vscode"
   }

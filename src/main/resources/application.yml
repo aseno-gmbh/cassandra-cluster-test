@@ -20,3 +20,13 @@ spring.data.cassandra:
     connect-timeout: 10s
     init-query-timeout: 10s
 
+driver.contactPoints: ${CASS_CONTACT_POINTS}
+driver.localdc: ${CASS_LOCAL_DC}
+driver.keyspace: ${CASS_KEYSPACE}
+driver.consistency: ${CASS_CL}
+driver.serialConsistency: ${CASS_SCL}
+driver.retryPolicy: ${CASS_RETRY_POLICY}
+driver.sessionName: val-sess
+driver.pageSize: 8
+driver.username: ${CASS_USER}
+driver.password: ${CASS_PWD}

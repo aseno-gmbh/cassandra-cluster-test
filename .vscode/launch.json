@@ -1,15 +1,28 @@
 {
     "configurations": [
-    {
-        "type": "java",
-        "name": "Launch Java Program",
-        "request": "launch",
-        "cwd": "${workspaceFolder}",
-        "console": "internalConsole",
-        "stopOnEntry": false,
-        "mainClass": "de.aseno.spikes.Application",
-        "args": " --spring.profiles.active=vfo",
-        "projectName": "my-app"
-    }
+        {
+            "type": "java",
+            "name": "Launch My-App Cassandra",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "stopOnEntry": false,
+            "mainClass": "de.aseno.spikes.Application",
+            "args": "--spring.profiles.active=vfo",
+            "vmArgs": "-Dspring.profiles.active=vfo",
+            "projectName": "mycass",
+            "env": {
+                "CASS_LOCAL_DC": "rz1",
+                "CASS_KEYSPACE": "myks",
+                "CASS_CONTACT_POINTS": "cassandra1,cassandra2,cassandra4,cassandra5",
+                "CASS_PORT": "9042",
+                "CASS_USER": "aseno",
+                "CASS_PWD": "password",
+                "CASS_CL": "EACH_QUORUM",
+                "CASS_SCL": "SERIAL",
+                //"CASS_RETRY_POLICY": "de.aseno.spikes.ConsistencyRetryPolicy"
+                "CASS_RETRY_POLICY": "com.datastax.oss.driver.internal.core.retry.DefaultRetryPolicy"
+            }
+        }
     ]
 }
