@@ -14,8 +14,8 @@ target/
 *.ctxt
 
 # VS Code
-.vscode
-.devcontainer
+#.vscode
+#.devcontainer
 
 # Package Files #
 *.jar

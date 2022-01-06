@@ -1,0 +1,15 @@
+{
+    "configurations": [
+    {
+        "type": "java",
+        "name": "Launch Java Program",
+        "request": "launch",
+        "cwd": "${workspaceFolder}",
+        "console": "internalConsole",
+        "stopOnEntry": false,
+        "mainClass": "de.aseno.spikes.Application",
+        "args": " --spring.profiles.active=vfo",
+        "projectName": "my-app"
+    }
+    ]
+}
