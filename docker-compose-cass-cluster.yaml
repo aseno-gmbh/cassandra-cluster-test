@@ -1,4 +1,4 @@
-version: '3.9' 
+version: '2.2' 
 
 # docker network create -d bridge cassnet
 networks:
@@ -19,16 +19,16 @@ services:
     environment: # The first two nodes (per dc) will be seeds
       - CASSANDRA_SEEDS=cassandra1,cassandra2,cassandra4,cassandra5
       - CASSANDRA_PASSWORD_SEEDER=yes
-      - CASSANDRA_PASSWORD=mycass123
+      #- CASSANDRA_PASSWORD=mycass123 # use default cassandra
       - CASSANDRA_CLUSTER_NAME=aseno-cass
       - CASSANDRA_DATACENTER=rz1
       - CASSANDRA_RACK=rack1
       - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch # SimpleSnitch #
       - CASSANDRA_NUM_TOKENS=256
-      - CASSANDRA_HOST=cassandra1
+      #- CASSANDRA_HOST=cassandra1
       #- CASSANDRA_BROADCAST_ADDRESS=cassandra1
-      - CASSANDRA_TRANSPORT_PORT_NUMBER=7000
-      - MAX_HEAP_SIZE=2G
+      #- CASSANDRA_TRANSPORT_PORT_NUMBER=7000
+      - MAX_HEAP_SIZE=1500M
       - HEAP_NEWSIZE=400M
 
   cassandra2:
@@ -43,16 +43,16 @@ services:
       - cassandra2_data:/bitnami
     environment:
       - CASSANDRA_SEEDS=cassandra1,cassandra2,cassandra4,cassandra5 
-      - CASSANDRA_PASSWORD=mycass123
+      #- CASSANDRA_PASSWORD=mycass123
       - CASSANDRA_CLUSTER_NAME=aseno-cass
       - CASSANDRA_DATACENTER=rz1
       - CASSANDRA_RACK=rack1
       - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
       - CASSANDRA_NUM_TOKENS=256
       #- CASSANDRA_BROADCAST_ADDRESS=cassandra2
-      - CASSANDRA_TRANSPORT_PORT_NUMBER=7000
+      #- CASSANDRA_TRANSPORT_PORT_NUMBER=7000
       #- CASSANDRA_INIT_SLEEP_TIME=8 #sec. default=5
-      - MAX_HEAP_SIZE=2G
+      - MAX_HEAP_SIZE=1500M
       - HEAP_NEWSIZE=400M
     depends_on:
       - cassandra1
@@ -70,16 +70,16 @@ services:
       - cassandra3_data:/bitnami
     environment:
       - CASSANDRA_SEEDS=cassandra1,cassandra2,cassandra4,cassandra5
-      - CASSANDRA_PASSWORD=mycass123
+      #- CASSANDRA_PASSWORD=mycass123
       - CASSANDRA_CLUSTER_NAME=aseno-cass
       - CASSANDRA_DATACENTER=rz1
       - CASSANDRA_RACK=rack1
       - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
       - CASSANDRA_NUM_TOKENS=256
       #- CASSANDRA_BROADCAST_ADDRESS=cassandra3
-      - CASSANDRA_TRANSPORT_PORT_NUMBER=7000
+      #- CASSANDRA_TRANSPORT_PORT_NUMBER=7000
       #- CASSANDRA_INIT_SLEEP_TIME=8
-      - MAX_HEAP_SIZE=2G
+      - MAX_HEAP_SIZE=1500M
       - HEAP_NEWSIZE=400M
     depends_on:
       - cassandra1
@@ -98,16 +98,16 @@ services:
       - cassandra4_data:/bitnami
     environment:
       - CASSANDRA_SEEDS=cassandra1,cassandra2,cassandra4,cassandra5
-      - CASSANDRA_PASSWORD=mycass123
+      #- CASSANDRA_PASSWORD=mycass123
       - CASSANDRA_CLUSTER_NAME=aseno-cass
       - CASSANDRA_DATACENTER=rz2
       - CASSANDRA_RACK=rack1
       - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
       - CASSANDRA_NUM_TOKENS=256
       #- CASSANDRA_BROADCAST_ADDRESS=cassandra4
-      - CASSANDRA_TRANSPORT_PORT_NUMBER=7000
+      #- CASSANDRA_TRANSPORT_PORT_NUMBER=7000
       #- CASSANDRA_INIT_SLEEP_TIME=8 #sec. default=5
-      - MAX_HEAP_SIZE=2G
+      - MAX_HEAP_SIZE=1500M
       - HEAP_NEWSIZE=400M
     depends_on:
       - cassandra1
@@ -124,16 +124,16 @@ services:
       - cassandra5_data:/bitnami
     environment:
       - CASSANDRA_SEEDS=cassandra1,cassandra2,cassandra4,cassandra5
-      - CASSANDRA_PASSWORD=mycass123
+      #- CASSANDRA_PASSWORD=mycass123
       - CASSANDRA_CLUSTER_NAME=aseno-cass
       - CASSANDRA_DATACENTER=rz2
       - CASSANDRA_RACK=rack1
       - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
       - CASSANDRA_NUM_TOKENS=256
       #- CASSANDRA_BROADCAST_ADDRESS=cassandra5
-      - CASSANDRA_TRANSPORT_PORT_NUMBER=7000
+      #- CASSANDRA_TRANSPORT_PORT_NUMBER=7000
       #- CASSANDRA_INIT_SLEEP_TIME=8 #sec. default=5
-      - MAX_HEAP_SIZE=2G
+      - MAX_HEAP_SIZE=1500M
       - HEAP_NEWSIZE=400M
     depends_on:
       - cassandra1
@@ -151,16 +151,16 @@ services:
       - cassandra6_data:/bitnami
     environment:
       - CASSANDRA_SEEDS=cassandra1,cassandra2,cassandra4,cassandra5
-      - CASSANDRA_PASSWORD=mycass123
+      #- CASSANDRA_PASSWORD=mycass123
       - CASSANDRA_CLUSTER_NAME=aseno-cass
       - CASSANDRA_DATACENTER=rz2
       - CASSANDRA_RACK=rack1
       - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
       - CASSANDRA_NUM_TOKENS=256
       #- CASSANDRA_BROADCAST_ADDRESS=cassandra6
-      - CASSANDRA_TRANSPORT_PORT_NUMBER=7000
+      #- CASSANDRA_TRANSPORT_PORT_NUMBER=7000
       #- CASSANDRA_INIT_SLEEP_TIME=8 #sec. default=5
-      - MAX_HEAP_SIZE=2G
+      - MAX_HEAP_SIZE=1500M
       - HEAP_NEWSIZE=400M
     depends_on:
       - cassandra1
