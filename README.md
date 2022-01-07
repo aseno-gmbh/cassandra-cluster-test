@@ -17,7 +17,11 @@ docker network create -d bridge cassnet
 # run the 6 nodes cassandra cluster on this network. This may take some time. So please be patient ;-)
 docker-compose -f docker-compose-cass-cluster.yaml up -d
 ```
-
+Please wait until the cluster is fully established! This could take a few minutes. You can verify this by inspecting the logs.
+```bash
+# check the logs {cassandra1,cassandra2,cassandra3,cassandra4,cassandra5,cassandra6}
+$ docker logs cassandra1
+```
 Now we need to make some small changes to our new esablished cassandra-cluster.
 
 ```bash
@@ -65,6 +69,14 @@ CREATE KEYSPACE IF NOT EXISTS myks with replication = { 'class': 'NetworkTopolog
 nodetool repair system_auth
 # done ;-)
 ```
+Alternative Connection
+
+```bash
+$ docker run -it --rm \
+    --network cassnet \
+    bitnami/cassandra:latest cqlsh --username aseno --password password cassandra1
+```
+See also https://github.com/bitnami/bitnami-docker-cassandra
 
 ## Set up & run a TEST-Application
 
