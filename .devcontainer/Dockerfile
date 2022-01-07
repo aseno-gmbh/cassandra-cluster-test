@@ -7,4 +7,7 @@ LABEL MAINTAINER="developer@aseno.de"
 RUN apt-get update && \
     apt-get -y install maven net-tools vim curl wget apt-transport-https 
 
+EXPOSE 8080
 RUN mvn -version
+
+

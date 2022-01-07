@@ -11,6 +11,7 @@
             "args": "--spring.profiles.active=vfo",
             "vmArgs": "-Dspring.profiles.active=vfo",
             "projectName": "mycass",
+            "applicationUrl": "http://0.0.0.0:8080",
             "env": {
                 "CASS_LOCAL_DC": "rz1",
                 "CASS_KEYSPACE": "myks",

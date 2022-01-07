@@ -16,6 +16,7 @@
     "--network=cassnet",
   ],
   "forwardPorts": ["8080:8080"],
+  "appPort":[8080], // listen on all interfaces (0.0.0.0) not just localhost
   //"remoteUser": "vscode"
   // Use 'postCreateCommand' to run commands after the container is created.
 	"postCreateCommand": "java -version",
