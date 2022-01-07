@@ -90,6 +90,10 @@ docker-compose -f docker-compose.yaml up -d
 
 # see the logs
 docker logs -f my-app
+
+# a good output looks like ;-)
+INFO  [main] 2022-01-07 17:50:09,333 CassandraDaemon.java:650 - Startup complete
+INFO  [Thread-2] 2022-01-07 17:50:09,334 ThriftServer.java:133 - Listening for thrift clients...
 ```
 
 Now that the application is running, we can visit the swagger-ui under: <HOST>:<PORT>/swagger-ui/ e.g. http://localhost:8080/swagger-ui/. Here we can execute the usual GET,POST, etc. statements and create some content in the database. My personal recommendation is to use [postman](https://www.postman.com/) since it is one of the best tools for executing REST connamds.
