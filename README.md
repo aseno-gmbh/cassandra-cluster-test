@@ -85,15 +85,13 @@ Once again, we do not want to reinvent the wheel, so we borrow a simple [datasta
 ### compile & configure
 The best way is to use [VSCode Remote - Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) if you want to debug and analyse the code. Before opening the folder in container, make sure the Cassandra-Cluster is up and running and all nodes are available. Here you can run and debug the test-application within a container. Have a look at [devcontainer.json](.devcontainer/devcontainer.json) and [launch.json](.vscode/launch.json) for more details.
 
-Alternativly you can build and run the application using docker-comose again. This is the prefered way, if you want to run multiple test-application conneting to different datacenters. Have a look at [admin.sh](container/admin.sh)
+Alternatively you can build and run the application using docker-comose again. This is the prefered way, if you want to run multiple test-application conneting to different datacenters. Have a look at [admin.sh](container/admin.sh)
 
 ```bash
 # in main folder 
 $ mvn clean package -DskipTests
 $ cd container
-echo "-- copy jar --"
 $ cp ../target/*.jar .
-echo "-- build image --"
 $ docker build -t my-app .
 ```
 ### run the app (without vscode - remote containers)
