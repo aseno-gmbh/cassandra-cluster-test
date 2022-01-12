@@ -6,7 +6,7 @@ Basic understanding of **Cassandra and Docker** is required to follow the steps 
 
 ## Set up the cluster
 
-Using the [bitname/cassandra](https://https://hub.docker.com/r/bitnami/cassandra/) image and the file [docker-compose-cass-cluster.yaml](docker-compose-cass-cluster.yaml) (based on [CCC](https://github.com/digitalis-io/ccc)) we build up a cassandra cluster with 6 nodes and two rings. Note that the first three nodes {1,2,3} are bound to the datacenter/ring "rz1" and the second three {4,5,6} to the datacenter/ring "rz2".
+Using the [bitnami/cassandra](https://github.com/bitnami/bitnami-docker-cassandra) image and the file [docker-compose-cass-cluster.yaml](docker-compose-cass-cluster.yaml) (based on [CCC](https://github.com/digitalis-io/ccc)) we build up a cassandra cluster with 6 nodes and two rings. Note that the first three nodes {1,2,3} are bound to the datacenter/ring "rz1" and the second three {4,5,6} to the datacenter/ring "rz2".
 
 An external docker-network called **cassnet** is used to share connectivity with the clients.
 
