@@ -6,7 +6,7 @@ Basic understanding of **Cassandra and Docker** is required to follow the steps 
 
 ## Set up the cluster
 
-Using the [bitnami/cassandra](https://github.com/bitnami/bitnami-docker-cassandra) image and the file [docker-compose-cass-cluster.yaml](docker-compose-cass-cluster.yaml) (based on [CCC](https://github.com/digitalis-io/ccc)) we build up a cassandra cluster with 6 nodes and two rings. Note that the first three nodes {1,2,3} are bound to the datacenter/ring "rz1" and the second three {4,5,6} to the datacenter/ring "rz2".
+Using the [bitnami/cassandra](https://github.com/bitnami/bitnami-docker-cassandra) image and the file [docker-compose-cass-cluster.yaml](docker-compose-cass-cluster.yaml)  we build up a cassandra cluster with 6 nodes and two rings. Note that the first three nodes {1,2,3} are bound to the datacenter/ring "rz1" and the second three {4,5,6} to the datacenter/ring "rz2".
 
 An external docker-network called **cassnet** is used to share connectivity with the clients.
 
@@ -59,6 +59,7 @@ cassandra@cqlsh>
 cassandra@cqlsh> ALTER KEYSPACE "system_auth" WITH REPLICATION = {'class' : 'NetworkTopologyStrategy', 'rz1' : 2, 'rz2' : 2};
 
 # create a new super user
+# https://docs.datastax.com/en/security/5.1/security/Auth/secCreateRootAccount.html
 cassandra@cqlsh> CREATE ROLE aseno with SUPERUSER = true AND LOGIN = true and PASSWORD = 'password';
 # verify
 cassandra@cqlsh> select peer, data_center, host_id, preferred_ip, rack, rpc_address from system.peers;
